@@ -1,0 +1,106 @@
+#+TITLE: Elm Reference Info
+#+DESCRIPTION: Stuff from conferences, elm in action book and general project code
+
+* Values, Variables and Objects.
+    - [[https://www.youtube.com/watch?v=-6BsiVyC1kM&t=1037s]["The Value of Values" by Rick Hickey]]
+    - Variable can mutate, it can change during the execution of code.
+    - Value is immutable, can be one thing or a colletion of things, it stays the same during the execution of code.
+    - An object is an agregate of a variable or many variables with functions called methods that can acess or modify them.
+    - A function is an operation that does not deal with IO, Memory or any other thing, it only takes one value and returns another or a function.
+    - A procedure is what get coloquialy called a function, it can do IO, Memory and the rest.
+
+** The importance of their definitions
+    A value is the most important concept in data the sharing of data, especially between systems, due to them in most cases having been made in different programming languages, this project is no different. 
+
+    + The Back-End is implemented in Python using the Flask library.
+    + The Front-End is implemented in two different aproaches to Javascript, one based in variables, objects and its classes, and another in values and functions.
+        1. Elm a functional programming language that uses values.
+        2. TypeScript, a typed superset of JavaScript.
+
+    The important observation is that we use values to communicate between Back-End and Front-End, not Variables or Objects, event though we use them to generate values, our communication is value based. But why? A lot of it is due to the fact that we don't deal with the specifics of how a class or object works in itself or in the context of where it's comming from, meaning all the information that we have to work and base our response and communication is in the value being passed. A value aproach to programming should in theory have the same benefits.
+
+    This has an implicit question of if a value based approach to programming should give us these benefits at code level, why aren't they common? The answer is in how programming begun, with direct memory manipulation, at the time we had to use every bit available and find ways to reuse them as much as possible for everything in our systems, but as we grow more higher level in our programming, more apart from it, things started to change, dynamic typing, type inference, garbage collection were introduced by lisp, with higher-order functions, but the important for our purposes are the conceps of OOP.
+
+    OPP comes from SmallTalk, but we are not talking about it in this, we are talking about the prototype based OOP from JavaScript, that works similarly to Java in TypeScript, with support for Inheritance. In this we are ignoring the prototype based, since we are not talking about the impacts of manipulating the construction of a object, we are only talking about the impacts of complecting variables with functions.
+
+    The most obvious is specialization, it looks like the best thing, but it means in practice that every object has their own ways of handling itself, or worse, we may have discrepancies of how it returns its operations, do they only return a new variable, a new value, the make an in place modification, a combination of a new variable with a modification in place? There are all of this cases in JavaScript, TypeScript does not help it gives you the means of making the same with inheritance, meaning you have a new angle of bugs to deal with, backwards in place modification of inherited method or variable. At the same time the idea of encapsulating an a idea to reuse is appealing, no one should need to copy all of their code everywhere they want to reuse.
+
+    A way of avoiding this is to not use classes, nor variables, let information be conveyed by values, and functions that can be composed, or in the case of Elm piped. Values are generic, they are language independent, they are immutable, we can define function that use them in parallel without having to worry about locking to avoid them changing, their caracteristics aggregate, a list made of immutable values is itself immutable.
+    - Piping is a Higher-Order Function that takes a value and a function and returns the aplication of the function to the value. ( v |> f = f v ) (|> is the pipe operator in Elm).
+    
+
+    Use Modules if you find that you need a Data Structure to represent something and put the functions basic to it there and call it in a quallified manner, meaning you tell where it comes from before the name of the function, more on it on how to grow an Elm file.
+    
+
+* Life of a File
+  Stuff taken from the conference: [[https://www.youtube.com/watch?v=XpDsk374LDE]["The Life of a File" by Evan Czaplicki]]
+** When to split a file
+    - In JavaScript, a file must be splitted because the chances of a unintentional mutation increases with the file size.
+    - In Elm mutation is impossible.
+** How to split a file in Elm
+    - Split it around a new and better Data Structure arises from it.
+** Refactor JS vs Elm
+    - In JavaScript, refactors are dangerous, for a pletera of reasons.
+        1. Bad error messages.
+        2. Even in TypeScript, some of it's functionalities around typing are unstable.
+        3. Architectural complexity in the case of React.
+    - In Elm you can just trust the compiler.
+        1. Great error messages with descriptions of the problems and possible solutions.
+        2. Excelent type system inspired by Haskell.
+        3. The Elm Architecture separates what can and can't do IO at a type level, also something that comes from Haskell.
+
+* Conferences
+    - [[https://www.youtube.com/watch?v=IcgmSRJHu_8]["Making Impossible States Impossible" by Richard Feldman]]
+    - [[https://www.youtube.com/watch?v=6mTbuzafcII]["Transducers" by Rich Hickey]]
+    - [[https://www.youtube.com/watch?v=RFrKffrKCeU]["I used Elm in production and it cost me my job" by Annaia Berry]] verify Lisp curse.
+    - [[https://www.youtube.com/watch?v=QyJZzq0v7Z4]["Why isn't Functional Programming the Norm?" by Richard Feldman]]
+
+
+
+* Project
+    The project will be a chat app that is focused on groups not one on one conversations, it will be implemented inside out, using functional programming in Elm and OOP in React, to look for how they achieve the same result for the end user. Meaning we will be looking for things such as:
+    - Representation of State.
+    - Representation of the page.
+    - Reusability of code.
+    - Ease of change on the representation of State.
+    - Means of making undesirable code unrepresentable.
+    - Differences in Code Structure.
+    We will begin by implementing a base page to serve as an example and introduction to Elm and it's differences to React, this page will only show a base conversation saved in a list that can be appended to. There will be no complex development model, such as Agile or Scrum, nor complex techiniques for code organization and develpment such as the ones proposed in Clean Code or other texts like it.
+
+** The React OOP Implementation
+   In React we will be using objects to represent our nodes and more complex combinations of them.
+
+
+** The Elm FP Implementation
+   In Elm we use functions for everything including how we represent Html Nodes and more complex structures made of combinations of them. But first let's begin by explaining Functional Programing. It is defined as a paradigm of programming where we use functions that are side effect free as a way to build our code, these functions are analogous to the functions of the lambda calculus and share other properties such as being curried by default, but one distinct thing is that they may or not be lazily evaluated, this in Elm is restricted to two parts of the language, the Html.Lazy module, which gives control over if the page will be lazily or directly evaluated and when we are building recursive type definitions.
+
+   Other common things in this paradigm are recursions being the main mechanism of iteration over a iterable collection of elements such as lists and trees, the enphasis on Higher-Order Functions (map, filter, reduce, scan), Algebraic Data Types which in most languages are separated in different concepts (Union, Tagged Unions, Optional, Enum) and the focus on Piping or Composition as the main mechasism for building complex functionalities based on the use of various sequential transformations over a value.
+
+   The non use of variables, values are used, they are immutable, they don't have methods and in most most cenarios can be used for trivial parallelization, since you don't have to develop locking mechaninsms.
+
+   We will begin by modeling our representation of the Data Structure that will represent our chat.
+   #+begin_src elm
+type MessageType
+  = Send 
+  | Received
+
+type alias Message =
+  { messageType : MessageType
+  , message : String
+  }
+
+
+type alias Model =
+  { messages : List Message 
+  , draft : String
+  }
+
+init : Model
+init =
+  { messages = 
+    [ { messageType = Send, message = "Something new"}
+    , { messageType = Received, message = "Something old"}
+    ] 
+  , draft = ""
+  }
+    #+end_src
