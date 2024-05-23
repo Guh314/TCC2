@@ -104,3 +104,55 @@ init =
   , draft = ""
   }
     #+end_src
+
+
+* General Stuff
+#+begin_src elm
+type Usuario
+  = UsuarioComum UC
+  | UsuarioLider UL
+
+type alias UC =
+  { id : Int
+  , nome : String
+  , email : String
+  , senha : String
+  }
+
+
+type alias UL =
+  { id : Int
+  , nome : String
+  , email : String
+  , senha : String
+  , salas : List Int
+  }
+#+end_src
+
+#+begin_src typescript
+class Usuario {
+    id: number;
+    nome: string;
+    email: string;
+    senha: string;
+
+    constructor(id: number, nome: string, email: string, senha: string) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
+}
+
+class UsuarioComum extends Usuario {
+    super();
+}
+
+class UsuarioLider extends Usuario {
+    salas: number[];
+    super();
+    constructor(salas: number[]) {
+        this.salas = salas;
+    }
+}
+#+end_src
