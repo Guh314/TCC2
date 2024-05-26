@@ -121,10 +121,7 @@ type alias UC =
 
 
 type alias UL =
-  { id : Int
-  , nome : String
-  , email : String
-  , senha : String
+  { usuario : UC
   , salas : List Int
   }
 #+end_src
